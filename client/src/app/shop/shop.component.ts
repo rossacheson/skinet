@@ -20,4 +20,7 @@ export class ShopComponent implements OnInit {
       error: (error) => console.log(error),
     });
   }
+
+  public onSearch(): void {}
+  public onReset(): void {}
 }
