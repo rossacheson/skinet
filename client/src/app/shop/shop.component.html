@@ -10,13 +10,23 @@
 
       <h5 class="text-warning ml-3 mt-3 mb-4">Brands</h5>
       <ul class="list-group my-3">
-        <li class="list-group-item" *ngFor="let brand of brands">
+        <li
+          class="list-group-item"
+          [class.active]="brand.id === this.brandIdSelected"
+          *ngFor="let brand of brands"
+          (click)="onBrandSelected(brand.id)"
+        >
           {{ brand.name }}
         </li>
       </ul>
       <h5 class="text-warning ml-3 mt-3 mb-4">Types</h5>
       <ul class="list-group my-3">
-        <li class="list-group-item" *ngFor="let type of productTypes">
+        <li
+          class="list-group-item"
+          [class.active]="type.id === this.typeIdSelected"
+          *ngFor="let type of productTypes"
+          (click)="onTypeSelected(type.id)"
+        >
           {{ type.name }}
         </li>
       </ul>

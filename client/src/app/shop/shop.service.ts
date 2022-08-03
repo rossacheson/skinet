@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { map } from 'rxjs/operators';
 
 import { IPagination } from '../shared/models/pagination';
 import { IProduct } from '../shared/models/product';
@@ -14,10 +15,20 @@ export class ShopService {
 
   constructor(private http: HttpClient) {}
 
-  public getProducts() {
-    return this.http.get<IPagination<IProduct>>(
-      this.baseUrl + 'products?pageSize=15'
-    );
+  public getProducts(brandId?: number, typeId?: number) {
+    let params = new HttpParams();
+    if (brandId) {
+      params = params.append('brandId', brandId);
+    }
+    if (typeId) {
+      params = params.append('typeId', typeId);
+    }
+    return this.http
+      .get<IPagination<IProduct>>(this.baseUrl + 'products', {
+        observe: 'response',
+        params,
+      })
+      .pipe(map((response) => response.body!));
   }
 
   public getBrands() {
