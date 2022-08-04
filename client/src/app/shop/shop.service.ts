@@ -41,6 +41,10 @@ export class ShopService {
       .pipe(map((response) => response.body!));
   }
 
+  public getProduct(id: number) {
+    return this.http.get<IProduct>(this.baseUrl + 'products/' + id);
+  }
+
   public getBrands() {
     return this.http.get<IBrand[]>(this.baseUrl + 'products/brands');
   }
