@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+
 import { IBrand } from '../shared/models/brand';
 import { IProduct } from '../shared/models/product';
 import { IProductType } from '../shared/models/productType';
+import { ShopParams } from '../shared/models/shopParams';
 import { ShopService } from './shop.service';
 
 @Component({
@@ -13,8 +15,13 @@ export class ShopComponent implements OnInit {
   public products: IProduct[] = [];
   public productTypes: IProductType[] = [];
   public brands: IBrand[] = [];
-  public typeIdSelected: number = 0;
-  public brandIdSelected: number = 0;
+  public shopParams = new ShopParams();
+  public totalCount: number = 0;
+  public readonly sortOptions = [
+    { name: 'Alphabetical', value: 'name' },
+    { name: 'Price: Low to High', value: 'priceAsc' },
+    { name: 'Price: High to Low', value: 'priceDesc' },
+  ];
 
   constructor(private shopService: ShopService) {}
 
@@ -28,24 +35,35 @@ export class ShopComponent implements OnInit {
   public onReset(): void {}
 
   public onBrandSelected(brandId: number): void {
-    this.brandIdSelected = brandId;
+    this.shopParams.brandId = brandId;
     this.getProducts();
   }
 
   public onTypeSelected(typeId: number): void {
-    this.typeIdSelected = typeId;
+    this.shopParams.typeId = typeId;
+    this.getProducts();
+  }
+
+  public onSortSelected(sort: string): void {
+    this.shopParams.sort = sort;
+    this.getProducts();
+  }
+
+  public onPageChanged(event: any) {
+    this.shopParams.pageNumber = event.page;
     this.getProducts();
   }
 
   private getProducts() {
-    this.shopService
-      .getProducts(this.brandIdSelected, this.typeIdSelected)
-      .subscribe({
-        next: (response) => {
-          this.products = response.data;
-        },
-        error: (error) => console.log(error),
-      });
+    this.shopService.getProducts(this.shopParams).subscribe({
+      next: (response) => {
+        this.products = response.data;
+        this.shopParams.pageNumber = response.pageIndex;
+        this.shopParams.pageSize = response.pageSize;
+        this.totalCount = response.count;
+      },
+      error: (error) => console.log(error),
+    });
   }
 
   private getProductTypes() {
