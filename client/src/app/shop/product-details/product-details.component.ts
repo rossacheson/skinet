@@ -18,7 +18,10 @@ export class ProductDetailsComponent implements OnInit {
     private shopService: ShopService,
     private route: ActivatedRoute,
     private breadcrumbService: BreadcrumbService
-  ) {}
+  ) {
+    // show as blank until the product is loaded
+    this.breadcrumbService.set('@productDetails', ' ');
+  }
 
   ngOnInit(): void {
     this.productId = +this.route.snapshot.paramMap.get('id')!;
