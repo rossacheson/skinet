@@ -2,7 +2,7 @@
   <div class="row">
     <section class="col-3">
       <ng-container *ngIf="productTypes && brands">
-        <h5 class="text-warning ml-3 mt-3 mb-4">Sort</h5>
+        <h5 class="text-warning ml-3 mt-2 mb-4">Sort</h5>
         <select
           name="sortSelect"
           id="sortSelect"
@@ -44,7 +44,7 @@
           [pageNumber]="shopParams.pageNumber"
           [pageSize]="shopParams.pageSize"></app-paging-header>
 
-        <div class="d-flex mt-2" *ngIf="products">
+        <div class="d-flex" *ngIf="products">
           <input
             (keyup.enter)="onSearch()"
             type="text"
