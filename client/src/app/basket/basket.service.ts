@@ -3,17 +3,26 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, map } from 'rxjs';
 
 import { environment } from 'src/environments/environment';
-import { Basket, IBasket, IBasketItem } from '../shared/models/basket';
+import {
+  Basket,
+  IBasket,
+  IBasketItem,
+  IBasketTotals,
+} from '../shared/models/basket';
 import { IProduct } from '../shared/models/product';
 
 @Injectable({
   providedIn: 'root',
 })
 export class BasketService {
-  private baseUrl = environment.apiUrl;
+  private readonly baseUrl = environment.apiUrl;
+  private readonly basketIdKey: string = 'basket_id';
+
   private basketSource = new BehaviorSubject<IBasket | null>(null);
   public basket$ = this.basketSource.asObservable();
-  private readonly basketIdKey: string = 'basket_id';
+  private basketTotalsSource = new BehaviorSubject<IBasketTotals | null>(null);
+  public basketTotals$ = this.basketTotalsSource.asObservable();
+  private shipping = 0;
 
   constructor(private http: HttpClient) {}
 
@@ -32,6 +41,7 @@ export class BasketService {
     return this.http.get<IBasket>(this.baseUrl + 'basket?id=' + id).pipe(
       map((basket) => {
         this.basketSource.next(basket);
+        this.calculateTotals();
       })
     );
   }
@@ -40,6 +50,7 @@ export class BasketService {
     return this.http.post<IBasket>(this.baseUrl + 'basket', basket).subscribe({
       next: (response) => {
         this.basketSource.next(response);
+        this.calculateTotals();
       },
       error: (error) => {
         console.log(error);
@@ -80,6 +91,16 @@ export class BasketService {
       items[index].quantity += quantity;
     }
     return items;
+  }
+
+  private calculateTotals() {
+    const basket = this.getCurrentBasketValue();
+    const shipping = this.shipping;
+    const subtotal = basket
+      ? basket.items.reduce((a, b) => b.price * b.quantity + a, 0)
+      : 0;
+    const total = subtotal + shipping;
+    this.basketTotalsSource.next({ shipping, total, subtotal });
   }
 
   private mapProductItemToBasketItem(
