@@ -35,6 +35,14 @@ const routes: Routes = [
       import('./basket/basket.module').then((module) => module.BasketModule),
     data: { breadcrumb: 'Basket' },
   },
+  {
+    path: 'checkout',
+    loadChildren: () =>
+      import('./checkout/checkout.module').then(
+        (module) => module.CheckoutModule
+      ),
+    data: { breadcrumb: 'Checkout' },
+  },
   { path: '**', redirectTo: 'not-found', pathMatch: 'full' },
 ];
 
