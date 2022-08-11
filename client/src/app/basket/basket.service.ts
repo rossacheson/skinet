@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, map } from 'rxjs';
+import { BehaviorSubject, map, tap } from 'rxjs';
 
 import { environment } from 'src/environments/environment';
 import {
@@ -19,7 +19,9 @@ export class BasketService {
   private readonly basketIdKey: string = 'basket_id';
 
   private basketSource = new BehaviorSubject<IBasket | null>(null);
-  public basket$ = this.basketSource.asObservable();
+  public basket$ = this.basketSource
+    .asObservable()
+    .pipe(tap((b) => console.log(b)));
   private basketTotalsSource = new BehaviorSubject<IBasketTotals | null>(null);
   public basketTotals$ = this.basketTotalsSource.asObservable();
   private shipping = 0;
@@ -70,6 +72,55 @@ export class BasketService {
     const basket = this.getCurrentBasketValue() ?? this.createBasket();
     basket.items = this.addOrUpdateItem(basket.items, itemToAdd, quantity);
     this.setBasket(basket);
+  }
+
+  public incrementItemQuantity(item: IBasketItem) {
+    const basket = this.getCurrentBasketValue() as IBasket;
+    const itemIndex = basket.items.findIndex((x) => x.id === item.id);
+    basket.items[itemIndex].quantity++;
+    this.setBasket(basket);
+  }
+
+  public decrementItemQuantity(item: IBasketItem) {
+    const basket = this.getCurrentBasketValue() as IBasket;
+    const itemIndex = basket.items.findIndex((x) => x.id === item.id);
+    if (basket.items[itemIndex].quantity > 1) {
+      basket.items[itemIndex].quantity--;
+      this.setBasket(basket);
+    } else {
+      this.removeItemFromBasket(item);
+    }
+  }
+
+  public removeItemFromBasket(item: IBasketItem) {
+    const basket = this.getCurrentBasketValue() as IBasket;
+    if (basket.items.some((x) => x.id === item.id)) {
+      basket.items = basket.items.filter((i) => i.id !== item.id);
+      if (basket.items.length > 0) {
+        this.setBasket(basket);
+      } else {
+        this.deleteBasket(basket);
+      }
+    }
+  }
+
+  public deleteLocalBasket(id: string) {
+    this.basketSource.next(null);
+    this.basketTotalsSource.next(null);
+    localStorage.removeItem(this.basketIdKey);
+  }
+
+  private deleteBasket(basket: IBasket) {
+    return this.http.delete(this.baseUrl + 'basket?id=' + basket.id).subscribe(
+      () => {
+        this.basketSource.next(null);
+        this.basketTotalsSource.next(null);
+        localStorage.removeItem(this.basketIdKey);
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
   }
 
   private createBasket(): IBasket {
