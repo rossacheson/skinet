@@ -66,6 +66,7 @@ namespace API
             app.UseRouting();
             app.UseStaticFiles();
 
+            app.UseAuthentication(); // needs to come before UseAuthorization
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
