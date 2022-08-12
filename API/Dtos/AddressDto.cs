@@ -17,9 +17,11 @@ namespace API.Dtos
         public string City { get; set; }
 
         [Required]
+        [StringLength(2)]
         public string State { get; set; }
 
         [Required]
+        [StringLength(5)]
         public string ZipCode { get; set; }
     }
 }
