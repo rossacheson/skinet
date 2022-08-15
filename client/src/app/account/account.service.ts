@@ -17,23 +17,25 @@ export class AccountService {
 
   constructor(private http: HttpClient, private router: Router) {}
 
-  public loadCurrentUser(token: string) {
+  public loadCurrentUser(): void {
+    const token = localStorage.getItem('token');
     if (token == null) {
       this.currentUserSource.next(null);
-      return of(null);
+      return;
     }
 
     let headers = new HttpHeaders();
     headers = headers.set('Authorization', `Bearer ${token}`);
 
-    return this.http.get<IUser>(this.baseUrl + 'account', { headers }).pipe(
-      map((user: IUser) => {
+    this.http.get<IUser>(this.baseUrl + 'account', { headers }).subscribe({
+      next: (user: IUser) => {
         if (user) {
           localStorage.setItem('token', user.token);
           this.currentUserSource.next(user);
         }
-      })
-    );
+      },
+      error: (err: any) => console.log(err),
+    });
   }
 
   public login(values: any) {
