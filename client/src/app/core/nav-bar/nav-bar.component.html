@@ -25,17 +25,22 @@
         {{ basket.items.length }}
       </div>
     </a>
-    <a
-      [routerLink]="['/account/login']"
-      routerLinkActive="router-link-active"
-      class="btn btn-outline-secondary mr-2"
-      >Login</a
-    >
-    <a
-      [routerLink]="['/account/register']"
-      routerLinkActive="router-link-active"
-      class="btn btn-outline-secondary mr-3"
-      >Sign up</a
-    >
+    <ng-container *ngIf="(currentUser$ | async) === null">
+      <a
+        [routerLink]="['/account/login']"
+        routerLinkActive="router-link-active"
+        class="btn btn-outline-secondary mr-2"
+        >Login</a
+      >
+      <a
+        [routerLink]="['/account/register']"
+        routerLinkActive="router-link-active"
+        class="btn btn-outline-secondary mr-3"
+        >Sign up</a
+      >
+    </ng-container>
+    <ng-container *ngIf="currentUser$ | async as currentUser">
+      <a href="#">Welcome {{ currentUser.displayName }}</a>
+    </ng-container>
   </div>
 </div>
