@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { PaginationModule } from 'ngx-bootstrap/pagination';
 import { CarouselModule } from 'ngx-bootstrap/carousel';
+import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 
 import { PagingHeaderComponent } from './components/paging-header/paging-header.component';
 import { PagerComponent } from './components/pager/pager.component';
@@ -22,11 +23,13 @@ import { TextInputComponent } from './components/text-input/text-input.component
     CommonModule,
     PaginationModule.forRoot(),
     CarouselModule.forRoot(),
+    BsDropdownModule.forRoot(),
     RouterModule,
   ],
   exports: [
     PaginationModule,
     CarouselModule,
+    BsDropdownModule,
     PagerComponent,
     PagingHeaderComponent,
     BasketSummaryComponent,
