@@ -55,16 +55,16 @@
               <i
                 *ngIf="isBasket"
                 (click)="decrementItemQuantity(item)"
-                class="fa fa-minus-circle text-warning me-2"
-                style="cursor: pointer; font-size: 2em"></i>
+                class="fa fa-minus-circle text-warning me-2 clickable"
+                style="font-size: 2em"></i>
               <span class="font-weight-bold" style="font-size: 1.5em">
                 {{ item.quantity }}
               </span>
               <i
                 *ngIf="isBasket"
                 (click)="incrementItemQuantity(item)"
-                class="fa fa-plus-circle text-warning mx-2"
-                style="cursor: pointer; font-size: 2em"></i>
+                class="fa fa-plus-circle text-warning mx-2 clickable"
+                style="font-size: 2em"></i>
             </div>
           </td>
           <td class="align-middle">
@@ -75,8 +75,8 @@
               <i
                 *ngIf="isBasket"
                 (click)="removeBasketItem(item)"
-                class="fa fa-trash"
-                style="font-size: 2em; cursor: pointer"></i>
+                class="fa fa-trash clickable"
+                style="font-size: 2em"></i>
             </a>
           </td>
         </tr>

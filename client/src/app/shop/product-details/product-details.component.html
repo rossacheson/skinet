@@ -12,15 +12,15 @@
       <div class="d-flex justify-content-start align-content-center">
         <i
           (click)="decrementQuantity()"
-          class="fa fa-minus-circle text-warning mr-2"
-          style="cursor: pointer; font-size: 2em"></i>
+          class="fa fa-minus-circle text-warning mr-2 clickable"
+          style="font-size: 2em"></i>
         <span class="font-weight-bold" style="font-size: 1.5em">{{
           quantity
         }}</span>
         <i
           (click)="incrementQuantity()"
-          class="fa fa-plus-circle text-warning mx-2"
-          style="cursor: pointer; font-size: 2em"></i>
+          class="fa fa-plus-circle text-warning mx-2 clickable"
+          style="font-size: 2em"></i>
         <button
           (click)="addItemToBasket()"
           class="btn btn-outline-primary btn-lg ml-4">
