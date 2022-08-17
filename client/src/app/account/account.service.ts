@@ -12,7 +12,7 @@ import { IUser } from '../shared/models/user';
 })
 export class AccountService {
   private readonly baseUrl = environment.apiUrl;
-  private currentUserSource = new ReplaySubject<IUser | null>(1);
+  private currentUserSource = new ReplaySubject<IUser | null>(1); // ReplaySubject does not emit an initial value -- we want to wait until we get a real value
   currentUser$ = this.currentUserSource.asObservable();
 
   constructor(private http: HttpClient, private router: Router) {}
