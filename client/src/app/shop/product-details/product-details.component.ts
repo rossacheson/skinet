@@ -31,15 +31,15 @@ export class ProductDetailsComponent implements OnInit {
     this.loadProduct(this.productId);
   }
 
-  public addItemToBasket() {
+  addItemToBasket() {
     this.basketService.addItemToBasket(this.product!, this.quantity);
   }
 
-  public incrementQuantity() {
+  incrementQuantity() {
     this.quantity++;
   }
 
-  public decrementQuantity() {
+  decrementQuantity() {
     if (this.quantity > 1) {
       this.quantity--;
     }

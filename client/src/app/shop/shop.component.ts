@@ -32,40 +32,49 @@ export class ShopComponent implements OnInit {
     this.getBrands();
   }
 
-  public onBrandSelected(brandId: number): void {
+  onBrandSelected(brandId: number): void {
     this.shopParams.brandId = brandId;
     this.shopParams.pageNumber = 1;
     this.getProducts();
   }
 
-  public onTypeSelected(typeId: number): void {
+  onTypeSelected(typeId: number): void {
     this.shopParams.typeId = typeId;
     this.shopParams.pageNumber = 1;
     this.getProducts();
   }
 
-  public onSortSelected(sort: string): void {
+  onSortSelected(sort: string): void {
     this.shopParams.sort = sort;
     this.getProducts();
   }
 
-  public onPageChanged(event: number): void {
+  onPageChanged(event: number): void {
     if (this.shopParams.pageNumber !== event) {
       this.shopParams.pageNumber = event;
       this.getProducts();
     }
   }
 
-  public onSearch(): void {
+  onSearch(): void {
     this.shopParams.search = this.searchInput.nativeElement.value;
     this.shopParams.pageNumber = 1;
     this.getProducts();
   }
 
-  public onReset(): void {
+  onReset(): void {
     this.searchInput.nativeElement.value = '';
     this.shopParams = new ShopParams();
     this.getProducts();
+  }
+
+  private getBrands() {
+    this.shopService.getBrands().subscribe({
+      next: (brands) => {
+        this.brands = [{ id: 0, name: 'All' }, ...brands];
+      },
+      error: (error) => console.log(error),
+    });
   }
 
   private getProducts() {
@@ -84,15 +93,6 @@ export class ShopComponent implements OnInit {
     this.shopService.getProductTypes().subscribe({
       next: (types) => {
         this.productTypes = [{ id: 0, name: 'All' }, ...types];
-      },
-      error: (error) => console.log(error),
-    });
-  }
-
-  private getBrands() {
-    this.shopService.getBrands().subscribe({
-      next: (brands) => {
-        this.brands = [{ id: 0, name: 'All' }, ...brands];
       },
       error: (error) => console.log(error),
     });

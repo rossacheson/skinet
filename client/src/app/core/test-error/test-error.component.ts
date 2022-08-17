@@ -15,29 +15,7 @@ export class TestErrorComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  public get404Error(): void {
-    this.http.get(this.baseUrl + 'products/42').subscribe({
-      next: (response) => {
-        console.log(response);
-      },
-      error: (error) => {
-        console.log(error);
-      },
-    });
-  }
-
-  public get500Error(): void {
-    this.http.get(this.baseUrl + 'buggy/servererror').subscribe({
-      next: (response) => {
-        console.log(response);
-      },
-      error: (error) => {
-        console.log(error);
-      },
-    });
-  }
-
-  public get400Error(): void {
+  get400Error(): void {
     this.http.get(this.baseUrl + 'buggy/badrequest').subscribe({
       next: (response) => {
         console.log(response);
@@ -48,7 +26,7 @@ export class TestErrorComponent implements OnInit {
     });
   }
 
-  public get400ValidationError(): void {
+  get400ValidationError(): void {
     this.http.get(this.baseUrl + 'products/fortytwo').subscribe({
       next: (response) => {
         console.log(response);
@@ -56,6 +34,28 @@ export class TestErrorComponent implements OnInit {
       error: (error) => {
         console.log(error);
         this.validationErrors = error.errors;
+      },
+    });
+  }
+
+  get404Error(): void {
+    this.http.get(this.baseUrl + 'products/42').subscribe({
+      next: (response) => {
+        console.log(response);
+      },
+      error: (error) => {
+        console.log(error);
+      },
+    });
+  }
+
+  get500Error(): void {
+    this.http.get(this.baseUrl + 'buggy/servererror').subscribe({
+      next: (response) => {
+        console.log(response);
+      },
+      error: (error) => {
+        console.log(error);
       },
     });
   }

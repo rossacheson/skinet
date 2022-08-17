@@ -8,7 +8,7 @@ import { BreadcrumbService } from 'xng-breadcrumb';
   styleUrls: ['./section-header.component.scss'],
 })
 export class SectionHeaderComponent implements OnInit {
-  public title$ = this.breadcrumbService.breadcrumbs$.pipe(
+  title$ = this.breadcrumbService.breadcrumbs$.pipe(
     filter((bcs) => bcs.length > 0),
     map((bcs) => bcs[bcs.length - 1].label as string)
   );

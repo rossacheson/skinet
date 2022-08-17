@@ -9,7 +9,7 @@ export class BusyService {
 
   constructor(private spinnerService: NgxSpinnerService) {}
 
-  public busy() {
+  busy() {
     this.busyRequestCount++;
     this.spinnerService.show(undefined, {
       type: 'ball-clip-rotate-pulse',
@@ -18,7 +18,7 @@ export class BusyService {
     });
   }
 
-  public idle() {
+  idle() {
     this.busyRequestCount--;
     if (this.busyRequestCount <= 0) {
       this.busyRequestCount = 0;

@@ -110,25 +110,6 @@ export class BasketService {
     localStorage.removeItem(this.basketIdKey);
   }
 
-  private deleteBasket(basket: IBasket) {
-    return this.http.delete(this.baseUrl + 'basket?id=' + basket.id).subscribe(
-      () => {
-        this.basketSource.next(null);
-        this.basketTotalsSource.next(null);
-        localStorage.removeItem(this.basketIdKey);
-      },
-      (error) => {
-        console.log(error);
-      }
-    );
-  }
-
-  private createBasket(): IBasket {
-    const basket = new Basket();
-    localStorage.setItem(this.basketIdKey, basket.id);
-    return basket;
-  }
-
   private addOrUpdateItem(
     items: IBasketItem[],
     itemToAdd: IBasketItem,
@@ -152,6 +133,25 @@ export class BasketService {
       : 0;
     const total = subtotal + shipping;
     this.basketTotalsSource.next({ shipping, total, subtotal });
+  }
+
+  private createBasket(): IBasket {
+    const basket = new Basket();
+    localStorage.setItem(this.basketIdKey, basket.id);
+    return basket;
+  }
+
+  private deleteBasket(basket: IBasket) {
+    return this.http.delete(this.baseUrl + 'basket?id=' + basket.id).subscribe(
+      () => {
+        this.basketSource.next(null);
+        this.basketTotalsSource.next(null);
+        localStorage.removeItem(this.basketIdKey);
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
   }
 
   private mapProductItemToBasketItem(
