@@ -9,6 +9,7 @@ import {
   IBasketItem,
   IBasketTotals,
 } from '../shared/models/basket';
+import { IDeliveryMethod } from '../shared/models/deliveryMethod';
 import { IProduct } from '../shared/models/product';
 
 @Injectable({
@@ -37,6 +38,15 @@ export class BasketService {
         error: (error) => console.log(error),
       });
     }
+  }
+
+  public setShippingPrice(deliveryMethod: IDeliveryMethod) {
+    this.shipping = deliveryMethod.price;
+    const basket = this.getCurrentBasketValue()!;
+    basket.deliveryMethodId = deliveryMethod.id;
+    basket.shippingPrice = deliveryMethod.price;
+    this.calculateTotals();
+    this.setBasket(basket);
   }
 
   public getBasket(id: string) {
