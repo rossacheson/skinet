@@ -46,6 +46,12 @@ const routes: Routes = [
     data: { breadcrumb: 'Checkout' },
   },
   {
+    path: 'orders',
+    loadChildren: () =>
+      import('./orders/orders.module').then((module) => module.OrdersModule),
+    data: { breadcrumb: 'Orders' },
+  },
+  {
     path: 'account',
     loadChildren: () =>
       import('./account/account.module').then((module) => module.AccountModule),

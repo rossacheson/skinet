@@ -1,5 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+
 import { IBasketItem } from '../../models/basket';
+import { IOrderItem } from '../../models/order';
 
 @Component({
   selector: 'app-basket-summary',
@@ -13,7 +15,10 @@ export class BasketSummaryComponent implements OnInit {
     new EventEmitter<IBasketItem>();
   @Output() remove: EventEmitter<IBasketItem> = new EventEmitter<IBasketItem>();
   @Input() isBasket = true;
-  @Input() items!: IBasketItem[];
+
+  // items type should be (IBasketItem | IOrderItem)[], but the compiler complains excessively
+  // consider refactoring in the future
+  @Input() items!: any[];
   @Input() isOrder = false;
 
   constructor() {}

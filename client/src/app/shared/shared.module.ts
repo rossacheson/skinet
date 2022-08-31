@@ -12,6 +12,7 @@ import { BasketSummaryComponent } from './components/basket-summary/basket-summa
 import { OrderTotalsComponent } from './components/order-totals/order-totals.component';
 import { TextInputComponent } from './components/text-input/text-input.component';
 import { StepperComponent } from './components/stepper/stepper.component';
+import { BasketOrderTotalsComponent } from './components/basket-order-totals/basket-order-totals.component';
 
 @NgModule({
   declarations: [
@@ -19,6 +20,7 @@ import { StepperComponent } from './components/stepper/stepper.component';
     PagerComponent,
     BasketSummaryComponent,
     OrderTotalsComponent,
+    BasketOrderTotalsComponent,
     TextInputComponent,
     StepperComponent,
   ],
@@ -39,6 +41,7 @@ import { StepperComponent } from './components/stepper/stepper.component';
     PagingHeaderComponent,
     BasketSummaryComponent,
     OrderTotalsComponent,
+    BasketOrderTotalsComponent,
     TextInputComponent,
     StepperComponent,
   ],

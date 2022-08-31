@@ -1,0 +1,6 @@
+<ng-container *ngIf="basketTotals$ | async as basketTotals">
+  <app-order-totals
+    [shippingPrice]="basketTotals.shipping"
+    [subtotal]="basketTotals.subtotal"
+    [total]="basketTotals.total"></app-order-totals
+></ng-container>
